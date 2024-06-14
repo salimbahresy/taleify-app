@@ -36,7 +36,7 @@ export function getStory() {
   return async (dispatch) => {
     dispatch(fetchData());
     try {
-      const result = await axios.get(`http://localhost:3000/story`);
+      const result = await axios.get(`https://taleify-literation-production.up.railway.app/story`);
       dispatch(successGetStory(result.data));
     } catch (error) {
       console.log(error);
@@ -48,7 +48,7 @@ export function getStoryById(id) {
   return async (dispatch) => {
     dispatch(fetchData());
     try {
-      const result = await axios.get(`http://localhost:3000/story/${id}`);
+      const result = await axios.get(`https://taleify-literation-production.up.railway.app/story/${id}`);
       dispatch(successGetStoryById(result.data));
     } catch (error) {
       console.log(error);
@@ -60,7 +60,7 @@ export function getStoryByIdLiteration(id) {
   return async (dispatch) => {
     dispatch(fetchData());
     try {
-      const result = await axios.get(`http://localhost:3000/story/literation/${id}`);
+      const result = await axios.get(`https://taleify-literation-production.up.railway.app/story/literation/${id}`);
       dispatch(successGetStoryByIdLiteration(result.data));
     } catch (error) {
       console.log(error);

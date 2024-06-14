@@ -44,7 +44,7 @@ export function getRating() {
   return async (dispatch) => {
     dispatch(fetchData());
     try {
-      const result = await axios.get(`http://localhost:3000/rating`);
+      const result = await axios.get(`https://taleify-literation-production.up.railway.app/rating`);
       dispatch(successGetRating(result.data));
     } catch (error) {
       console.log(error);
@@ -57,7 +57,7 @@ export function getRatingByLiteration(literationId) {
     dispatch(fetchData());
     try {
       const result = await axios.get(
-        `http://localhost:3000/rating/literation/${literationId}`
+        `https://taleify-literation-production.up.railway.app/rating/literation/${literationId}`
       );
       dispatch(successGetRatingByLiteration(result.data));
     } catch (error) {
@@ -71,7 +71,7 @@ export function getRatingByUserLiteration(userId, literationId) {
     dispatch(fetchData());
     try {
       const result = await axios.get(
-        `http://localhost:3000/rating/user_literation/${userId}/${literationId}`
+        `https://taleify-literation-production.up.railway.app/rating/user_literation/${userId}/${literationId}`
       );
       dispatch(successGetRatingByUserLiteration(result.data));
     } catch (error) {
@@ -84,7 +84,7 @@ export function addRating(rating, literation, user) {
   return async (dispatch) => {
     dispatch(fetchData());
     try {
-      const result = await axios.post(`http://localhost:3000/rating`, {
+      const result = await axios.post(`https://taleify-literation-production.up.railway.app/rating`, {
         rating,
         literation,
         user,

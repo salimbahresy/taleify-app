@@ -148,11 +148,15 @@ function Profile() {
       formData.append("profilePicture", compressedFile);
 
       // Upload the compressed file to the server
-      await axios.post(`http://localhost:3000/image/upload_avatar/${user?._id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.post(
+        `https://taleify-literation-production.up.railway.app/image/upload_avatar/${user?._id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       dispatch(userData());
       document.getElementById("changeImage").close();
@@ -166,7 +170,7 @@ function Profile() {
   const changeAvatarDefault = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:3000/image/default_avatar/${user?._id}`);
+      await axios.post(`https://taleify-literation-production.up.railway.app/image/default_avatar/${user?._id}`);
       dispatch(userData());
       document.getElementById("changeImage").close();
       alert("change picture successfully");
