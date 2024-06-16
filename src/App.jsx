@@ -19,7 +19,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/artikel" element={<Article />} />
+        <Route path="/artikel/:id" element={<Article />} />
         <Route path="/user" element={<Layout />}>
           <Route path="/user/home" element={<Home />} />
           <Route path="/user/profile" element={<Profile />} />

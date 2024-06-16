@@ -40,7 +40,7 @@ function Story() {
             <h1 className="text-slate-600 text-xl font-semibold line-clamp-1">{data?.subTitle}</h1>
           </div>
           <div className="w-full bg-white h-auto rounded-xl p-11 flex flex-col items-start justify-center mb-4 text-xs sm:text-sm md:text-base leading-loose story">
-            {story}
+            {story && story}
           </div>
           <button
             onClick={next}

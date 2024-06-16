@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Navbar from "../../component/Navbar";
@@ -14,9 +13,6 @@ import Woman3 from "../../assets/image/woman3.png";
 import Background2 from "../../assets/image/background2.png";
 import Background3 from "../../assets/image/background3.png";
 import Background4 from "../../assets/image/background4.png";
-import Literation from "../../assets/image/literation.jpg";
-import Idea from "../../assets/image/idea.jpg";
-import Happy from "../../assets/image/happy.jpg";
 
 // react icon
 import { FaBell } from "react-icons/fa";
@@ -24,19 +20,33 @@ import { FaAward } from "react-icons/fa6";
 import { AiFillGift } from "react-icons/ai";
 import { BiSolidBookAlt } from "react-icons/bi";
 import Footer from "../../component/Footer";
+import axios from "axios";
+import ArticleCard from "../../component/ArticleCard";
 
 function Dashboard() {
+  const [data, setData] = useState([]);
+  const [seeAll, setSeeAll] = useState(false);
+
+  useEffect(() => {
+    axios.get("https://635b3d50aa7c3f113db88e01.mockapi.io/blogs").then((res) => {
+      setData(res.data);
+    });
+  }, []);
   useEffect(() => {
     // Initialize AOS
     AOS.init({
       once: true, // Specify whether animation should happen only once
     });
   }, []);
+
+  const handleSeeAll = () => {
+    setSeeAll(!seeAll);
+  };
   return (
     <>
       <div className="w-full min-h-screen font-poppins">
         <Navbar />
-        <section id="banner">
+        <section id="home">
           <div
             className="container-fluid relative overflow-hidden bg-cover bg-center bg-purple-light-100"
             style={{ backgroundImage: `url(${Background})` }}
@@ -213,74 +223,31 @@ function Dashboard() {
                   </p>
                 </div>
                 <button
+                  onClick={handleSeeAll}
                   className="hidden lg:block bg-white border-2 border-purple-light rounded-md px-4 py-2 text-purple-light hover:bg-purple-semi-dark hover:text-white mt-6 lg:mt-0"
                   data-aos="fade-left"
                 >
-                  Lihat Semua Artikel
+                  {seeAll ? "Lebih Sedikit" : "Lihat Semua Artikel"}
                 </button>
               </div>
               <div className="w-full mt-11">
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-9 lg:gap-9 mx-0 lg:mx-6">
-                  <div
-                    className="min-h-0 md:min-h-[482px] bg-white text-slate-700 shadow-sm border-2 border-slate-100 rounded-2xl flex flex-col items-center p-5"
-                    data-aos="zoom-in"
-                  >
-                    <div className="w-full h-[208px] bg-purple-light-200 rounded-2xl overflow-hidden flex items-center justify-center">
-                      <img src={Literation} alt="image" className="w-full h-full object-cover object-center" />
-                    </div>
-                    <h4 className="text-slate-700 font-bold mt-5">Pentingkah Kemampuan Literasi Membaca?</h4>
-                    <p className="text-slate-500 text-sm text-justify leading-relaxed mt-4">
-                      Kemampuan literasi membaca sangat penting, terutama dikalangan anak muda yang saat ini memiliki
-                      tergantungan dengan gadget
-                    </p>
-                    <Link
-                      to={"/artikel"}
-                      className="text-center bg-white border-2 border-purple-light px-4 py-2 rounded-md text-purple-light w-full mt-5 hover:bg-purple-semi-dark hover:text-white"
-                    >
-                      Baca Selengkapnya
-                    </Link>
-                  </div>
-                  <div
-                    className="min-h-0 md:min-h-[482px] bg-white text-slate-700 shadow-sm border-2 border-slate-100 rounded-2xl flex flex-col items-center p-5"
-                    data-aos="zoom-in"
-                  >
-                    <div className="w-full h-[208px] bg-purple-light-200 rounded-2xl overflow-hidden flex items-center justify-center">
-                      <img src={Idea} alt="image" className="w-full h-full object-cover object-center" />
-                    </div>
-                    <h4 className="text-slate-700 font-bold mt-5">Pentingkah Kemampuan Literasi Membaca?</h4>
-                    <p className="text-slate-500 text-sm text-justify leading-relaxed mt-4">
-                      Kemampuan literasi membaca sangat penting, terutama dikalangan anak muda yang saat ini memiliki
-                      tergantungan dengan gadget
-                    </p>
-                    <Link
-                      to={"/artikel"}
-                      className="text-center bg-white border-2 border-purple-light px-4 py-2 rounded-md text-purple-light w-full mt-5 hover:bg-purple-semi-dark hover:text-white"
-                    >
-                      Baca Selengkapnya
-                    </Link>
-                  </div>
-                  <div
-                    className="min-h-0 md:min-h-[482px] bg-white text-slate-700 shadow-sm border-2 border-slate-100 rounded-2xl flex flex-col items-center p-5"
-                    data-aos="zoom-in"
-                  >
-                    <div className="w-full h-[208px] bg-purple-light-200 rounded-2xl overflow-hidden flex items-center justify-center">
-                      <img src={Happy} alt="image" className="w-full h-full object-cover object-center" />
-                    </div>
-                    <h4 className="text-slate-700 font-bold mt-5">Pentingkah Kemampuan Literasi Membaca?</h4>
-                    <p className="text-slate-500 text-sm text-justify leading-relaxed mt-4">
-                      Kemampuan literasi membaca sangat penting, terutama dikalangan anak muda yang saat ini memiliki
-                      tergantungan dengan gadget
-                    </p>
-                    <Link
-                      to={"/artikel"}
-                      className="text-center bg-white border-2 border-purple-light px-4 py-2 rounded-md text-purple-light w-full mt-5 hover:bg-purple-semi-dark hover:text-white"
-                    >
-                      Baca Selengkapnya
-                    </Link>
-                  </div>
+                  {data &&
+                    (seeAll
+                      ? data.map((el) => (
+                          <ArticleCard key={el.id} title={el.title} desc={el.desc} image={el.image} id={el.id} />
+                        ))
+                      : data
+                          .slice(0, 3)
+                          .map((el) => (
+                            <ArticleCard key={el.id} title={el.title} desc={el.desc} image={el.image} id={el.id} />
+                          )))}
                 </div>
-                <button className="block lg:hidden w-full bg-purple-light border-2 border-purple-light rounded-md px-4 py-2 text-white hover:bg-purple-semi-dark hover:text-white mt-6 lg:mt-0">
-                  Lihat Semua Artikel
+                <button
+                  onClick={handleSeeAll}
+                  className="block lg:hidden w-full bg-purple-light border-2 border-purple-light rounded-md px-4 py-2 text-white hover:bg-purple-semi-dark hover:text-white mt-6 lg:mt-0"
+                >
+                  {seeAll ? "Lebih Sedikit" : "Lihat Semua Artikel"}
                 </button>
               </div>
             </div>

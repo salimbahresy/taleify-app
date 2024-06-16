@@ -13,7 +13,6 @@ import "swiper/css/pagination";
 import "swiper/css/thumbs";
 import { useLocation, useNavigate } from "react-router-dom";
 import NavApp from "../../../component/NavApp";
-import CardLiteration from "../../../component/CardLiteration";
 import LiterationList from "../../../component/LiterationList";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +20,7 @@ import { getLiteration } from "../../../redux/action/literationAction";
 import { getGenre } from "../../../redux/action/genreAction";
 import { IoCloseCircle } from "react-icons/io5";
 import { userData } from "../../../redux/action/userAction";
+import CardLiteration from "../../../component/CardLiteration";
 
 function Home() {
   const navigate = useNavigate();

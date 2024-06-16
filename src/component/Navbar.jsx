@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/image/logo.png";
+import { HashLink } from "react-router-hash-link";
 
 function Navbar() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -44,19 +45,19 @@ function Navbar() {
         </Link>
         <ul className="hidden md:flex items-center justify-center">
           <li className="ms-10">
-            <Link href={"/"} className="text-slate-700">
+            <HashLink to={"/#home"} className="text-slate-700">
               Beranda
-            </Link>
+            </HashLink>
           </li>
           <li className="ms-10">
-            <Link href={"/"} className="text-slate-700">
+            <HashLink to={"/#article"} className="text-slate-700">
               Artikel
-            </Link>
+            </HashLink>
           </li>
           <li className="ms-10">
-            <Link href={"/"} className="text-slate-700">
+            <HashLink to={"/#about"} className="text-slate-700">
               Tentang Kami
-            </Link>
+            </HashLink>
           </li>
           <li className="ms-10">
             <button
@@ -92,37 +93,37 @@ function Navbar() {
         <div className={`w-full ${isExpanded ? "block" : "hidden"} md:hidden`}>
           <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50  dark:border-gray-700">
             <li>
-              <a
-                href="#"
+              <HashLink
+                to={"/#home"}
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 hover:opacity-70 dark:hover:text-white"
                 aria-current="page"
               >
                 Beranda
-              </a>
+              </HashLink>
             </li>
             <li>
-              <a
-                href="#"
+              <HashLink
+                to={"/#article"}
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 hover:opacity-70 dark:hover:text-white"
               >
                 Artikel
-              </a>
+              </HashLink>
             </li>
             <li>
-              <a
-                href="#"
+              <HashLink
+                to={"/#about"}
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 hover:opacity-70 dark:hover:text-white"
               >
                 Tentang Kami
-              </a>
+              </HashLink>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to={"/user/signin"}
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-purple-light dark:hover:text-white"
               >
                 Sign in
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

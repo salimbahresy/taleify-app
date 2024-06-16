@@ -58,7 +58,7 @@ function Footer() {
                 <span className="hidden sm:block">
                   <EnvelopeIcon className="w-6 inline me-2" />
                 </span>
-                taleify@gmail.com
+                taleifyliteration@outlook.com
               </li>
               <li className="mb-2 text-slate-500 flex items-center justify-center md:justify-start">
                 <span className="hidden sm:block">
