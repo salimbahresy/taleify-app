@@ -5,10 +5,7 @@ import axios from "axios";
 import { StarIcon } from "@heroicons/react/16/solid";
 import LiterationList from "../../../component/LiterationList";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getLiteration,
-  getLiterationById,
-} from "../../../redux/action/literationAction";
+import { getLiteration, getLiterationById } from "../../../redux/action/literationAction";
 import ImageLoad from "../../../assets/image/imageload.png";
 import {
   addUserLiteration,
@@ -16,31 +13,36 @@ import {
   updateUserLiteration,
 } from "../../../redux/action/literationAddedAction";
 import { getUserData, userData } from "../../../redux/action/userAction";
+import { getGenre } from "../../../redux/action/genreAction";
 
 function Literations() {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [filterGenre, setFilterGenre] = useState("All");
 
   const dispatch = useDispatch();
 
   const { data, isLoading } = useSelector((state) => state.literation);
-  const { dataDetail, isLoadingDetail } = useSelector(
-    (state) => state.literation
-  );
-  const literationAdded = useSelector(
-    (state) => state.literationAdded.dataDetail
-  );
-  const isLoadingLiteration = useSelector(
-    (state) => state.literationAdded.isLoadingDetail
-  );
+  const { dataDetail, isLoadingDetail } = useSelector((state) => state.literation);
+  const literationAdded = useSelector((state) => state.literationAdded.dataDetail);
+  const isLoadingLiteration = useSelector((state) => state.literationAdded.isLoadingDetail);
   const user = useSelector((state) => state.user.data);
   const isLoadingUser = useSelector((state) => state.user.isLoading);
+  const dataGenre = useSelector((state) => state.genre.data);
 
   const expanded = () => {
     setIsExpanded(!isExpanded);
   };
+
+  const setGenre = (filter) => {
+    setFilterGenre(filter);
+  };
+
+  useEffect(() => {
+    dispatch(getGenre());
+  }, [location]);
 
   useEffect(() => {
     dispatch(getLiteration());
@@ -77,11 +79,7 @@ function Literations() {
       alert("Harap verifikasi terlebih dahulu akun anda");
     } else {
       if (userId && dataDetail?._id) {
-        if (
-          literationAdded &&
-          literationAdded != null &&
-          literationAdded[0]?.status == 0
-        ) {
+        if (literationAdded && literationAdded != null && literationAdded[0]?.status == 0) {
           const idLiterationAdded = literationAdded[0]?._id;
           dispatch(updateUserLiteration(idLiterationAdded, 1)).then(() => {
             dispatch(getLiterationAddedById(userId, id));
@@ -124,11 +122,7 @@ function Literations() {
               <div className="row-span-4 lg:row-span-1 col-span-4 lg:col-span-1 relative">
                 <div className="absolute h-[200px] lg:h-[407px] w-full bottom-0 lg:-top-28 left-1/2 -translate-x-1/2 rounded-lg overflow-hidden">
                   {isLoadingDetail ? (
-                    <img
-                      src={ImageLoad}
-                      alt="cover.png"
-                      className="object-cover object-bottom h-full w-full"
-                    />
+                    <img src={ImageLoad} alt="cover.png" className="object-cover object-bottom h-full w-full" />
                   ) : (
                     dataDetail && (
                       <img
@@ -148,9 +142,7 @@ function Literations() {
                 )}
 
                 {dataDetail && dataDetail.author && (
-                  <h4 className="text-sm text-slate-400 mb-4">
-                    {dataDetail.author.name}
-                  </h4>
+                  <h4 className="text-sm text-slate-400 mb-4">{dataDetail.author.name}</h4>
                 )}
 
                 {dataDetail && (
@@ -163,10 +155,7 @@ function Literations() {
                   </h3>
                 )}
 
-                <h4
-                  className="text-sm text-cyan-600 mb-4 cursor-pointer"
-                  onClick={expanded}
-                >
+                <h4 className="text-sm text-cyan-600 mb-4 cursor-pointer" onClick={expanded}>
                   {isExpanded ? "Sembunyikan" : "Lihat Selengkapnya"}
                 </h4>
                 {dataDetail && dataDetail.genre && (
@@ -224,18 +213,38 @@ function Literations() {
               <div className="h-12 w-[2px] bg-purple-dark rounded-lg me-2"></div>
               <div>
                 <h2 className="text-base sm:text-2xl text-slate-700">Genre</h2>
-                <h2 className="text-base sm:text-2xl text-slate-700 font-bold">
-                  Populer
-                </h2>
+                <h2 className="text-base sm:text-2xl text-slate-700 font-bold">Populer</h2>
               </div>
             </div>
             <ul className="hidden md:flex text-slate-500 text-base">
-              <li className="ms-5">Semua</li>
-              <li className="ms-5">Fiksi</li>
-              <li className="ms-5">Sejarah</li>
-              <li className="ms-5">Akademis</li>
-              <li className="ms-5">Romantis</li>
-              <li className="ms-5">Horror</li>
+              <li
+                className={`ms-5 cursor-pointer ${
+                  filterGenre === "All" ? "text-purple-semi-dark font-bold" : "hover:text-purple-semi-dark"
+                }`}
+                onClick={() => setGenre("All")}
+              >
+                Semua
+              </li>
+              {dataGenre &&
+                dataGenre.slice(0, 5).map((el) => {
+                  return (
+                    <li
+                      className={`ms-5 cursor-pointer ${
+                        filterGenre === el.name ? "text-purple-semi-dark font-bold" : "hover:text-purple-semi-dark"
+                      }`}
+                      key={el._id}
+                      onClick={() => setGenre(`${el.name}`)}
+                    >
+                      {el.name}
+                    </li>
+                  );
+                })}
+              <li
+                className={`ms-5 cursor-pointer hover:text-purple-semi-dark
+                `}
+              >
+                Lainnya
+              </li>
             </ul>
             <select
               defaultValue={"Semua"}
@@ -262,10 +271,25 @@ function Literations() {
                 rating={null}
                 slug={null}
               />
+            ) : data &&
+              (filterGenre === "All" ? data : data.filter((el) => el.genre?.name === filterGenre)).length === 0 ? (
+              <div className="w-full flex justify-center items-center col-span-12 min-h-32">
+                <p className="text-center text-slate-600 font-medium text-xl">Literasi tidak ditemukan</p>
+              </div>
             ) : (
-              data &&
-              data.map((element) => {
-                return (
+              data
+                .slice(0, 10)
+                .sort((a, b) => {
+                  return new Date(a.createdAt) - new Date(b.createdAt);
+                })
+                .filter((el) => {
+                  if (filterGenre === "All") {
+                    return true;
+                  } else {
+                    return el.genre?.name === filterGenre;
+                  }
+                })
+                .map((element) => (
                   <div key={element._id}>
                     <LiterationList
                       id={element._id}
@@ -277,8 +301,7 @@ function Literations() {
                       slug={element.slug}
                     />
                   </div>
-                );
-              })
+                ))
             )}
           </div>
         </div>

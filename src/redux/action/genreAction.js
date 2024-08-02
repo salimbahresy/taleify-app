@@ -28,7 +28,7 @@ export function getGenre() {
   return async (dispatch) => {
     dispatch(fetchData());
     try {
-      const result = await axios.get(`https://taleify-literation-production.up.railway.app/genre`);
+      const result = await axios.get(`https://taleify-literation.vercel.app/genre`);
       dispatch(successGetGenre(result.data));
     } catch (error) {
       console.log(error);
@@ -40,7 +40,7 @@ export function getGenreById(id) {
   return async (dispatch) => {
     dispatch(fetchData());
     try {
-      const result = await axios.get(`https://taleify-literation-production.up.railway.app/genre/${id}`);
+      const result = await axios.get(`https://taleify-literation.vercel.app/genre/${id}`);
       dispatch(successGetGenreById(result.data));
     } catch (error) {
       console.log(error);

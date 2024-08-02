@@ -44,7 +44,7 @@ export function getUserAnswerByUserId(id) {
   return async (dispatch) => {
     dispatch(fetchData());
     try {
-      const result = await axios.get(`https://taleify-literation-production.up.railway.app/user_answer/user/${id}`);
+      const result = await axios.get(`https://taleify-literation.vercel.app/user_answer/user/${id}`);
       dispatch(successGetUserAnswerByUserId(result.data));
     } catch (error) {
       console.log(error);
@@ -55,7 +55,7 @@ export function getUserAnswer() {
   return async (dispatch) => {
     dispatch(fetchData());
     try {
-      const result = await axios.get(`https://taleify-literation-production.up.railway.app/user_answer`);
+      const result = await axios.get(`https://taleify-literation.vercel.app/user_answer`);
       dispatch(successGetUserAnswer(result.data));
     } catch (error) {
       console.log(error);
@@ -67,8 +67,8 @@ export function getUserAnswerByUser(userId, storyId) {
   return async (dispatch) => {
     dispatch(fetchData());
     try {
-      const questionResult = await axios.get(`https://taleify-literation-production.up.railway.app/question/story/${storyId}`);
-      const result = await axios.get(`https://taleify-literation-production.up.railway.app/user_answer/${userId}/${questionResult?.data?._id}`);
+      const questionResult = await axios.get(`https://taleify-literation.vercel.app/question/story/${storyId}`);
+      const result = await axios.get(`https://taleify-literation.vercel.app/user_answer/${userId}/${questionResult?.data?._id}`);
       dispatch(successGetUserAnswerByUser(result.data));
     } catch (error) {
       console.log(error);
@@ -81,7 +81,7 @@ export function addUserAnswer(userId, questionId, userAnswer) {
     dispatch(fetchData());
     try {
       const result = await axios.post(
-        `https://taleify-literation-production.up.railway.app/user_answer`,
+        `https://taleify-literation.vercel.app/user_answer`,
         {
           user: userId,
           question: questionId,
